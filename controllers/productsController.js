@@ -54,8 +54,32 @@ const add = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const { id } = req.params;
+
+    const result = await productsService.update(id, name);
+
+    if (result.length === 0) {
+      return res
+        .status(httpStatus.NOT_FOUND)
+        .json({ message: 'Product not found' });
+    }
+    return res
+      .status(httpStatus.OK)
+      .json({ id, name });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(httpStatus.INTERNAL_SERVER)
+      .json({ message: 'Erro ao tentar realizar operação' });
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   add,
+  update,
 };
