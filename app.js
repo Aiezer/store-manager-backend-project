@@ -16,6 +16,7 @@ app.use(express.json());
 // app.use(helmet());
 // app.use(morgan('common'));
 app.use('/products', rescue(router.productsRouter));
+app.use('/sales', rescue(router.salesRouter));
 app.use(errorMiddleware);
 
 // não remova essa exportação, é para o avaliador funcionar
