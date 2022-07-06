@@ -21,6 +21,20 @@ const add = async (sales) => {
   return result;
 };
 
+const getAllSales = async () => {
+  const sales = await salesModel.getAllSales();
+  if (!sales) return [];
+  return sales;
+};
+
+const getSaleById = async (id) => {
+  const sale = await salesModel.getSaleById(id);
+  if (!sale) return [];
+  return sale;
+};
+
 module.exports = {
   add,
+  getAllSales,
+  getSaleById,
 };
