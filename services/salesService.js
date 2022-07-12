@@ -33,8 +33,15 @@ const getSaleById = async (id) => {
   return sale;
 };
 
+const exclude = async (id) => {
+  const result = await salesModel.excludeFromSales(id);
+  if (result < 1) return false;
+  return true;
+};
+
 module.exports = {
   add,
   getAllSales,
   getSaleById,
+  exclude,
 };

@@ -28,12 +28,12 @@ const serializeAllSales = (sales) =>
     quantity,
   }));
 
-  const serializeSaleById = (sale) =>
-    sale.map(({ date, product_id: productId, quantity }) => ({
-      date,
-      productId,
-      quantity,
-    }));
+const serializeSaleById = (sale) =>
+  sale.map(({ date, product_id: productId, quantity }) => ({
+    date,
+    productId,
+    quantity,
+  }));
 
 const getAllSales = async () => {
   const query = `SELECT id, date, product_id, quantity
@@ -60,9 +60,19 @@ const getSaleById = async (id) => {
   return serializeSaleById(sale);
 };
 
+const excludeFromSales = async (id) => {
+  const [exclude] = await connection.execute(
+    `DELETE FROM StoreManager.sales
+    WHERE id = ?`,
+    [id],
+    );
+    return exclude.affectedRows;
+  };
+
 module.exports = {
   addToSales,
   addToSalesProducts,
   getAllSales,
   getSaleById,
+  excludeFromSales,
 };

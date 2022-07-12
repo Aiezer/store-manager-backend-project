@@ -1,6 +1,8 @@
 const salesService = require('../services/salesService');
 const httpStatus = require('../helpers/httpStatusCode');
 
+const operationError = 'Erro ao tentar realizar operação';
+
 const add = async (req, res) => {
   try {
     const sales = req.body;
@@ -14,7 +16,7 @@ const add = async (req, res) => {
     console.error(err);
     res
       .status(httpStatus.INTERNAL_SERVER)
-      .send('Erro ao tentar realizar operação');
+      .send(operationError);
   }
 };
 
@@ -31,7 +33,7 @@ const getAllSales = async (req, res) => {
     console.error(err);
     res
       .status(httpStatus.INTERNAL_SERVER)
-      .json({ message: 'Erro ao tentar realizar operação' });
+      .json({ message: operationError });
   }
 };
 
@@ -40,7 +42,7 @@ const getSaleById = async (req, res) => {
     const { id } = req.params;
 
     const result = await salesService.getSaleById(id);
-    if (!result || result.length < 1) {
+    if (!result) {
       return res
         .status(httpStatus.NOT_FOUND)
         .json({ message: 'Sale not found' });
@@ -50,7 +52,24 @@ const getSaleById = async (req, res) => {
     console.error(err);
     res
       .status(httpStatus.INTERNAL_SERVER)
-      .send('Erro ao tentar realizar operação');
+      .send(operationError);
+  }
+};
+
+const exclude = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await salesService.exclude(id);
+
+    if (result === false) {
+      return res
+        .status(httpStatus.NOT_FOUND)
+        .json({ message: 'Sale not found' });
+    }
+    return res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    res.status(httpStatus.INTERNAL_SERVER).json({ message: operationError });
   }
 };
 
@@ -58,4 +77,5 @@ module.exports = {
   add,
   getAllSales,
   getSaleById,
+  exclude,
 };
