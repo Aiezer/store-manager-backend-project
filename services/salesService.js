@@ -11,9 +11,9 @@ const add = async (sales) => {
   sales.map(async (sale) => {
     const { productId, quantity } = sale;
     if (!productId || !quantity) return false;
-      await salesModel.addToSalesProducts(addSale.id, productId, quantity);
-      return addSale;
-    });
+    await salesModel.addToSalesProducts(addSale.id, productId, quantity);
+    return addSale;
+  });
   const result = {
     id: addSale.id,
     itemsSold: sales,
@@ -39,9 +39,18 @@ const exclude = async (id) => {
   return true;
 };
 
+const updateSaleById = async (saleId, arrayUpdate) => {
+  arrayUpdate.map(async (n) => {
+    await salesModel.updateSaleById(saleId, n.productId, n.quantity);
+  });
+  // if (result.some((e) => e < 1)) return false;
+  return true;
+};
+
 module.exports = {
   add,
   getAllSales,
   getSaleById,
   exclude,
+  updateSaleById,
 };

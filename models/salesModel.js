@@ -69,16 +69,17 @@ const excludeFromSales = async (id) => {
     return exclude.affectedRows;
 };
 
-// const update = async (saleId, productId, name) => {
-//   const [result] = await connection.execute(
-//     `UPDATE StoreManager.sales_products
-//       SET name = ?
-//       WHERE sale_id = ?`,
-//     [productId, id]
-//   );
+const updateSaleById = async (saleId, productId, quantity) => {
+  const [result] = await connection.execute(
+    `UPDATE StoreManager.sales_products
+      SET quantity = ?
+      WHERE sale_id = ? AND product_id = ?
+    `,
+    [quantity, saleId, productId],
+  );
 
-//   return result.affectedRows;
-// };
+  return result.affectedRows;
+};
 
 module.exports = {
   addToSales,
@@ -86,4 +87,5 @@ module.exports = {
   getAllSales,
   getSaleById,
   excludeFromSales,
+  updateSaleById,
 };

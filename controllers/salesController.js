@@ -73,9 +73,24 @@ const exclude = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  try {
+    const itemsUpdated = req.body;
+    const { id } = req.params;
+
+    await salesService.updateSaleById(id, itemsUpdated);
+
+    return res.status(httpStatus.OK).json({ saleId: id, itemsUpdated });
+  } catch (err) {
+    console.error(err);
+    res.status(httpStatus.INTERNAL_SERVER).json({ message: operationError });
+  }
+};
+
 module.exports = {
   add,
   getAllSales,
   getSaleById,
   exclude,
+  update,
 };
