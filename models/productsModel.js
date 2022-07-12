@@ -39,9 +39,17 @@ const update = async (id, name) => {
   return result.affectedRows;
 };
 
+const exclude = async (id) =>
+  connection.execute(
+    `DELETE FROM StoreManager.products
+    WHERE id = ?`,
+    [id],
+  );
+
 module.exports = {
   getAll,
   getById,
   add,
   update,
+  exclude,
 };
