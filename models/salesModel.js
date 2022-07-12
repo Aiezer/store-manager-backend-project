@@ -37,8 +37,8 @@ const serializeSaleById = (sale) =>
 
 const getAllSales = async () => {
   const query = `SELECT id, date, product_id, quantity
-  FROM sales
-  JOIN sales_products
+  FROM StoreManager.sales
+  JOIN StoreManager.sales_products
   ON sales.id = sales_products.sale_id
   ORDER BY id, product_id;`;
 
@@ -49,8 +49,8 @@ const getAllSales = async () => {
 
 const getSaleById = async (id) => {
   const query = `SELECT date, product_id, quantity
-  FROM sales
-  JOIN sales_products
+  FROM StoreManager.sales
+  JOIN StoreManager.sales_products
   ON sales.id = sales_products.sale_id
   WHERE id = ?
   ORDER BY id, product_id;`;
@@ -67,7 +67,18 @@ const excludeFromSales = async (id) => {
     [id],
     );
     return exclude.affectedRows;
-  };
+};
+
+// const update = async (saleId, productId, name) => {
+//   const [result] = await connection.execute(
+//     `UPDATE StoreManager.sales_products
+//       SET name = ?
+//       WHERE sale_id = ?`,
+//     [productId, id]
+//   );
+
+//   return result.affectedRows;
+// };
 
 module.exports = {
   addToSales,
