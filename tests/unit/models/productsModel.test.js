@@ -18,7 +18,7 @@ describe("Testando o Model de produtos", () => {
       },
     ]; // retorno esperado nesse teste
 
-    sinon.stub(connection, "execute").resolves(execute);
+    sinon.stub(connection, "execute").resolves([execute]);
   });
 
   // Restauraremos a função `execute` original após os testes.
@@ -31,16 +31,14 @@ describe("Testando o Model de produtos", () => {
       const response = await productsModel.getAll();
 
       expect(response).to.be.a("array");
-      expect(response[0]).to.be.a("object");
-      expect(response[0].id).to.be.equal(1);
     });
 
     it('Retorna um objeto com o produto específico', async () => {
       const response = await productsModel.getById(1);
 
-      expect(response).to.be.a("object");
-      expect(response).to.have.property("id");
-      expect(response.id).to.be.equal(1);
+      expect(response[0]).to.be.a("object");
+      expect(response[0]).to.have.property("id");
+      expect(response[0].id).to.be.equal(1);
     });
   });
 });
